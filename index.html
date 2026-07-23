@@ -11,6 +11,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400&family=Playfair+Display:italic&display=swap" rel="stylesheet">
 
+    /* 音乐控制按钮样式 (位于页面右上角) */
+.music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(62, 68, 86, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    font-size: 1.2em;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(62, 68, 86, 1);
+}
+
+/* 播放时的旋转动画 */
+.music-playing {
+    animation: rotateMusic 4s linear infinite;
+}
+
+@keyframes rotateMusic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
     <style>
         :root {
             --duke-blue: #001A57;
@@ -269,5 +305,24 @@
         }
         setInterval(createPetal, 1000);
     </script>
+<script>
+    function toggleMusic() {
+        var audio = document.getElementById('bgm');
+        var btn = document.getElementById('musicBtn');
+        
+        if (audio.paused) {
+            audio.play();
+            btn.classList.add('music-playing');
+        } else {
+            audio.pause();
+            btn.classList.remove('music-playing');
+        }
+    }
+</script>
 </body>
-</html>
+</html><audio id="bgm" src="659551399.aac" loop></audio>
+
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <span id="musicIcon">🎵</span>
+</div>
+
