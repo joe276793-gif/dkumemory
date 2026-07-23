@@ -3,254 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D K U M E M O R Y — A Lost Chapter</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,400;1,700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    
+    <title>DKU Memory | 这一程，山水一程</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* ==============================
-           1. 基础样式 (伤感、静谧)
-           ============================== */
         body {
-            /* 采用深石板蓝灰作为背景色，带有一丝伤感和夜晚的感觉，并呼应DKU蓝色 */
-            background-color: #2c3140; 
-            color: #eceff4; /* 柔和的米白色文本 */
-            font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden; /* 防止背景动画溢出 */
-            position: relative; /* 为背景动画提供定位 */
+            background: linear-gradient(135deg, #1a2a44 0%, #2c3e50 50%, #4a3a4d 100%);
+            color: #e0e0e0;
+            font-family: 'Noto Serif SC', serif;
+            scroll-behavior: smooth;
         }
 
-        /* 背景动画效果：缓慢飘落的哑光金色花瓣/雪花，象征失落和回忆 */
-        .background-animation {
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .cherry-blossom {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* 在内容后面 */
-            pointer-events: none; /* 不影响点击 */
+            pointer-events: none;
+            z-index: 10;
         }
 
-        /* 动画元素：金色雪花 */
-        .snowflake {
-            color: rgba(212, 175, 55, 0.4); /* 柔和的哑光金色 */
-            font-size: 1em;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+        .text-glow {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 模拟樱花飘落 */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .petal {
             position: fixed;
-            top: -10%;
-            z-index: -1;
-            user-select: none;
-            cursor: default;
-            animation-name: snowflakes-fall, snowflakes-shake;
-            animation-duration: 10s, 3s;
-            animation-timing-function: linear, ease-in-out;
-            animation-iteration-count: infinite, infinite;
-            animation-play-state: running, running;
-        }
-
-        /* ==============================
-           2. 主要内容布局 (简洁、卡片式)
-           ============================== */
-        main {
-            width: 90%;
-            max-width: 700px;
-            background-color: #3e4456; /* 稍浅的卡片背景 */
-            margin: 80px 0;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* 深邃的阴影 */
-            border-radius: 12px;
-            border-top: 5px solid #d4af37; /* 卡片顶部使用哑光金色作为强调色 */
-            position: relative; /* 为标题动画定位 */
-            z-index: 1; /* 在背景动画前面 */
-        }
-
-        /* 标题：伤感且文艺，使用了DKU相关的元素 */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(236, 239, 244, 0.1); /* 柔和的分隔线 */
-        }
-
-        h1 {
-            font-family: 'Merriweather', serif;
-            font-style: italic;
-            font-weight: 700;
-            font-size: 2.8em;
-            color: #fdfbfb; /* 最亮的米白 */
-            margin: 0;
-            letter-spacing: -1px;
-            animation: fadeInTitle 2s ease-out; /* 淡入动画 */
-        }
-
-        h1 .dku-accent {
-            color: #d4af37; /* DKU的金色元素 */
-        }
-
-        h2 {
-            font-size: 1.1em;
-            font-weight: 400;
-            color: rgba(236, 239, 244, 0.7);
-            margin-top: 5px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* ==============================
-           3. 核心内容区域 (文本和图片)
-           ============================== */
-        .content-section {
-            margin-bottom: 40px;
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-        }
-
-        /* 用户的诗或心里话 */
-        .poem {
-            font-family: 'Merriweather', serif;
-            font-style: italic;
-            font-size: 1.2em;
-            color: #fdfbfb;
-            text-align: center;
-            margin: 30px 0;
-            white-space: pre-line; /* 保留换行 */
-        }
-
-        /* 用户的文本占位符 */
-        .user-text {
-            color: rgba(236, 239, 244, 0.9);
-            margin: 20px 0;
-            text-align: justify; /* 两端对齐 */
-        }
-
-        /* 拒信图片占位符 */
-        .rejection-image {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            margin: 30px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(236, 239, 244, 0.5);
-            font-size: 1.3em;
-            border: 2px dashed rgba(236, 239, 244, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .rejection-image:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-            border-color: rgba(236, 239, 244, 0.4);
-        }
-
-        /* ==============================
-           4. 页脚 (最后的一句话)
-           ============================== */
-        footer {
-            margin-top: auto; /* 在底部对齐 */
-            padding: 30px 0;
-            width: 100%;
-            text-align: center;
-            color: rgba(236, 239, 244, 0.4);
-            font-size: 0.9em;
-            border-top: 1px solid rgba(236, 239, 244, 0.1);
-        }
-
-        /* ==============================
-           5. 动画和响应式
-           ============================== */
-        /* 标题淡入动画 */
-        @keyframes fadeInTitle {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 背景雪花动画 */
-        @keyframes snowflakes-fall {
-            0% { top: -10%; }
-            100% { top: 100%; }
-        }
-
-        @keyframes snowflakes-shake {
-            0% { transform: translateX(0px); }
-            50% { transform: translateX(80px); }
-            100% { transform: translateX(0px); }
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 600px) {
-            h1 { font-size: 2em; }
-            main { padding: 20px; }
-            .content-section { font-size: 0.95em; }
-            .poem { font-size: 1.1em; }
+            background: #ffb7c5;
+            border-radius: 150% 0 150% 150%;
+            width: 10px;
+            height: 10px;
+            animation: fall 10s linear infinite;
         }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <div class="background-animation">
-        <div class="snowflake" style="left:10%;animation-delay:0s,0s">D</div>
-        <div class="snowflake" style="left:20%;animation-delay:1s,1s">K</div>
-        <div class="snowflake" style="left:30%;animation-delay:6s,0.5s">U</div>
-        <div class="snowflake" style="left:40%;animation-delay:4s,2s">M</div>
-        <div class="snowflake" style="left:50%;animation-delay:2s,1.5s">E</div>
-        <div class="snowflake" style="left:60%;animation-delay:8s,3s">M</div>
-        <div class="snowflake" style="left:70%;animation-delay:6s,2s">O</div>
-        <div class="snowflake" style="left:80%;animation-delay:10s,1s">R</div>
-        <div class="snowflake" style="left:90%;animation-delay:3s,1.5s">Y</div>
-        <div class="snowflake" style="left:25%;animation-delay:2s,0s">★</div>
-        <div class="snowflake" style="left:65%;animation-delay:4s,2.5s">★</div>
+    <!-- 背景音乐 (需要用户交互后播放) -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button id="musicBtn" class="glass-card p-4 rounded-full hover:bg-white/10 transition">
+            <span id="musicIcon">🎵</span>
+        </button>
+        <audio id="bgMusic" loop>
+            <!-- 建议替换为你喜欢的伤感钢琴曲链接 -->
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col items-center justify-center relative px-4">
+        <div class="text-center animate__animated animate__fadeIn">
+            <h1 class="text-5xl md:text-7xl font-light mb-6 tracking-widest text-glow">DKU MEMORY</h1>
+            <p class="text-xl md:text-2xl text-gray-400 font-extra-light italic">“那不是我最后一次来到这里，对吗？”</p >
+        </div>
+        <div class="absolute bottom-10 animate-bounce text-gray-500">
+            <p>向下滚动 · 回溯</p >
+        </div>
+    </section>
+
+    <!-- Timeline Timeline -->
+    <main class="max-w-4xl mx-auto px-6 py-20">
+        
+        <!-- 去年十一月 -->
+        <div class="mb-32 flex flex-col items-start glass-card p-8 animate-on-scroll">
+            <span class="text-blue-300 mb-4 tracking-tighter">November 2023</span>
+            <h2 class="text-2xl mb-4">启程：博雅精神的向往</h2>
+            <p class="leading-relaxed text-gray-300">
+                正式提交申请表的那刻，心中满是 Liberal Arts 的自由与中美教育交汇的视野。昆山杜克，不仅是一个校名，那是通向广阔世界的窗。
+            </p >
         </div>
 
-    <main>
-        <header>
-            <h1>D <span class="dku-accent">K</span> U M E M O R Y</h1>
-            <h2>Kunshan Dreams, A Lost Chapter.</h2>
-        </header>
-
-        <div class="content-section">
-            
-            <div class="poem">
-                在昆山梦中，我失去了你。
-                你的光芒，我未曾触及。
-                拒信如纸，心如石，
-                一段未竟的旅程，在此止。
-                
-                回忆是那飘落的碎金，
-                虽然冰冷，却依旧美丽。
-            </div>
-
-            <div class="rejection-image">
+        <!-- 校园日 -->
+        <div class="mb-32 flex flex-col items-end text-right glass-card p-8 animate-on-scroll">
+            <span class="text-pink-200 mb-4 tracking-tighter">March 28 - 29, 2024</span>
+            <h2 class="text-2xl mb-4">暮春：那场微微暑热的梦</h2>
+            <div class="w-full h-64 bg-gray-800 rounded-lg mb-6 overflow-hidden relative">
+                <!-- 这里插入你和Paul Stanley的合照 -->
+                <div class="absolute inset-0 flex items-center justify-center text-gray-600 italic">
+                    [ 此处安放你与 Paul Stanley 的合照 ]
                 </div>
-
-            <div class="user-text">
-                这里是我用来填坑的文本占位符。比如，在这里写下你在申请季的努力，
-                也许是对昆杜那一方湖畔校舍的向往，也许是对那一场面试的紧张与期盼。
-                
-                这一站，我们未能如愿。也许有过不甘，也许有过自我怀疑。
-                但请记住，这段经历本身也是一种风景。我们在这里告别，
-                然后，去寻找那更远、更广阔的天地。
-                
-                
             </div>
+            <p class="leading-relaxed text-gray-300 max-w-xl">
+                物理课上的灵感碰撞，食堂里的晚餐，还有那个遗憾的面试下午。
+                三点多的流程结束了，但我不想走。我在天文台旁的樱花树下站了很久。
+            </p >
+        </div>
 
+        <!-- 最后的羁绊 -->
+        <div class="mb-32 flex flex-col items-start glass-card p-8 animate-on-scroll">
+            <span class="text-yellow-200 mb-4 tracking-tighter">May 2024</span>
+            <h2 class="text-2xl mb-4">羁绊：最后一份礼物</h2>
+            <p class="leading-relaxed text-gray-300">
+                收到了招办寄来的高考大礼包。那份沉甸甸的包裹，成了我和昆杜之间最后的、也是最温柔的联结。
+            </p >
+        </div>
+
+        <!-- 终章 -->
+        <div class="text-center mt-60 mb-40 animate-on-scroll">
+            <h2 class="text-3xl font-light mb-10 text-glow">结局</h2>
+            <div class="space-y-6 text-gray-400">
+                <p>高考出分，超过投档线20分。</p >
+                <p>老师说：还有一丝希望。</p >
+                <p>最终，奇迹没有发生。</p >
+                <p class="text-2xl text-white mt-12">“自由的学术氛围、博雅的课堂、广阔的世界，”</p >
+                <p class="text-2xl text-white">“都随着这个夏天一道，彻底离我远去了。”</p >
+            </div>
         </div>
 
     </main>
 
-    <footer>
-        "A closed door is sometimes a different destination."
+    <!-- Footer -->
+    <footer class="py-20 text-center border-t border-white/10">
+        <p class="text-sm tracking-widest text-gray-500 mb-4 italic">Dedicated to the dream I once held so close.</p >
+        <p class="text-xs text-gray-600">Domain: dku.memory | Designed for a soulful heart</p >
     </footer>
 
+    <script>
+        // 背景音乐控制
+        const musicBtn = document.getElementById('musicBtn');
+        const audio = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('musicIcon').innerText = '🎵';
+            } else {
+                audio.play();
+                document.getElementById('musicIcon').innerText = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 樱花飘落效果
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            petal.style.opacity = Math.random();
+            document.body.appendChild(petal);
+
+            setTimeout(() => {
+                petal.remove();
+            }, 10000);
+        }
+        setInterval(createPetal, 500);
+
+        // 滚动显示动画
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    entry.target.style.opacity = "1";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            el.style.opacity = "0";
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
